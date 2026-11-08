@@ -43,7 +43,8 @@ $show_quick_add = get_theme_mod('ansh_wc_enable_quick_add', true);
                     'alt' => esc_attr($product->get_name())
                 ]);
             } else {
-                echo '<img src="' . esc_url(wc_placeholder_img_src('thrift-card')) . '" alt="' . esc_attr__('Placeholder', 'ansh-thrifts') . '" class="product-card__img product-card__img--primary">';
+                $placeholder = function_exists('wc_placeholder_img_src') ? wc_placeholder_img_src('thrift-card') : '';
+                echo '<img src="' . esc_url($placeholder) . '" alt="' . esc_attr__('Placeholder', 'ansh-thrifts') . '" class="product-card__img product-card__img--primary">';
             }
 
             if ($has_hover_image && $hover_img_url) {

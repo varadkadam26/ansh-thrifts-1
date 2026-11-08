@@ -301,7 +301,7 @@ remove_action('woocommerce_before_main_content', 'woocommerce_breadcrumb', 20);
  * Output Filter Bar before WooCommerce shop loop
  */
 add_action('woocommerce_before_shop_loop', function () {
-    if (is_shop() || is_product_taxonomy()) {
+    if (function_exists('is_shop') && (is_shop() || (function_exists('is_product_taxonomy') && is_product_taxonomy()))) {
         get_template_part('template-parts/filter-bar');
     }
 }, 15);
@@ -310,7 +310,7 @@ add_action('woocommerce_before_shop_loop', function () {
  * Custom Query Modifications for Brand, Condition & Availability Filters
  */
 function ansh_thrifts_filter_shop_query($query) {
-    if (!is_admin() && $query->is_main_query() && (is_shop() || is_product_taxonomy())) {
+    if (!is_admin() && $query->is_main_query() && function_exists('is_shop') && (is_shop() || (function_exists('is_product_taxonomy') && is_product_taxonomy()))) {
         $tax_query = (array) $query->get('tax_query');
 
         // Brand Filter
@@ -394,7 +394,7 @@ function ansh_thrifts_render_cart_drawer_contents() {
             </svg>
             <p class="empty-title"><?php esc_html_e('Your thrift bag is empty', 'ansh-thrifts'); ?></p>
             <p class="empty-sub"><?php esc_html_e('Our one-of-a-kind vintage pieces sell quickly. Start exploring new drops now.', 'ansh-thrifts'); ?></p>
-            <a href="<?php echo esc_url(wc_get_page_permalink('shop')); ?>" class="thrift-btn thrift-btn--dark">
+            <a href="<?php echo esc_url(function_exists('wc_get_page_permalink') ? wc_get_page_permalink('shop') : home_url('/shop')); ?>" class="thrift-btn thrift-btn--dark">
                 <?php esc_html_e('Explore Vintage Collection', 'ansh-thrifts'); ?>
             </a>
         </div>

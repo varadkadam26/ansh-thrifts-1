@@ -39,16 +39,20 @@ $bottoms_cat = get_term_by('slug', 'bottoms', 'product_cat');
 <div class="thrift-filter-bar">
     <div class="filter-bar-header">
         <div class="filter-categories-nav">
-            <a href="<?php echo esc_url(wc_get_page_permalink('shop')); ?>" class="filter-pill <?php echo (!is_product_category() && empty($current_brand)) ? 'is-active' : ''; ?>">
+            <?php 
+            $shop_url = function_exists('wc_get_page_permalink') ? wc_get_page_permalink('shop') : home_url('/shop');
+            $is_cat   = function_exists('is_product_category') && is_product_category();
+            ?>
+            <a href="<?php echo esc_url($shop_url); ?>" class="filter-pill <?php echo (!$is_cat && empty($current_brand)) ? 'is-active' : ''; ?>">
                 <?php esc_html_e('All Archive', 'ansh-thrifts'); ?>
             </a>
             <?php if ($tops_cat && !is_wp_error($tops_cat)) : ?>
-                <a href="<?php echo esc_url(get_term_link($tops_cat)); ?>" class="filter-pill <?php echo (is_product_category('tops') || (is_product_category() && term_is_ancestor_of($tops_cat->term_id, get_queried_object_id(), 'product_cat'))) ? 'is-active' : ''; ?>">
+                <a href="<?php echo esc_url(get_term_link($tops_cat)); ?>" class="filter-pill <?php echo (function_exists('is_product_category') && (is_product_category('tops') || (is_product_category() && term_is_ancestor_of($tops_cat->term_id, get_queried_object_id(), 'product_cat')))) ? 'is-active' : ''; ?>">
                     <?php esc_html_e('Tops', 'ansh-thrifts'); ?>
                 </a>
             <?php endif; ?>
             <?php if ($bottoms_cat && !is_wp_error($bottoms_cat)) : ?>
-                <a href="<?php echo esc_url(get_term_link($bottoms_cat)); ?>" class="filter-pill <?php echo (is_product_category('bottoms') || (is_product_category() && term_is_ancestor_of($bottoms_cat->term_id, get_queried_object_id(), 'product_cat'))) ? 'is-active' : ''; ?>">
+                <a href="<?php echo esc_url(get_term_link($bottoms_cat)); ?>" class="filter-pill <?php echo (function_exists('is_product_category') && (is_product_category('bottoms') || (is_product_category() && term_is_ancestor_of($bottoms_cat->term_id, get_queried_object_id(), 'product_cat')))) ? 'is-active' : ''; ?>">
                     <?php esc_html_e('Bottoms', 'ansh-thrifts'); ?>
                 </a>
             <?php endif; ?>

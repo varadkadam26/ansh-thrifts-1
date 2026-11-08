@@ -45,7 +45,7 @@ get_header();
                 <h2><?php esc_html_e('No archived pieces found matching your search.', 'ansh-thrifts'); ?></h2>
                 <p><?php esc_html_e('Try searching for vintage brands like Nike, Carhartt, Levi’s or keywords like jackets, cargos, or tees.', 'ansh-thrifts'); ?></p>
                 <div class="mt-6">
-                    <a href="<?php echo esc_url(wc_get_page_permalink('shop')); ?>" class="thrift-btn thrift-btn--dark">
+                    <a href="<?php echo esc_url(function_exists('wc_get_page_permalink') ? wc_get_page_permalink('shop') : home_url('/shop')); ?>" class="thrift-btn thrift-btn--dark">
                         <?php esc_html_e('Explore All Collections', 'ansh-thrifts'); ?>
                     </a>
                 </div>

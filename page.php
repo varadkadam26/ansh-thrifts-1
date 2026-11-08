@@ -18,7 +18,10 @@ get_header();
             the_post();
             ?>
             <article id="post-<?php the_ID(); ?>" <?php post_class('static-page-article'); ?>>
-                <?php if (!is_front_page() && !is_cart() && !is_checkout() && !is_account_page()) : ?>
+                <?php 
+                $is_wc_page = (function_exists('is_cart') && is_cart()) || (function_exists('is_checkout') && is_checkout()) || (function_exists('is_account_page') && is_account_page());
+                if (!is_front_page() && !$is_wc_page) : 
+                ?>
                     <header class="page-header text-center mb-10">
                         <h1 class="page-title"><?php the_title(); ?></h1>
                     </header>
