@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ansh Thrifts — Live Interactive Theme Preview</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Syne:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <style>
+        /* Interactive Preview Banner */
+        .preview-bar {
+            background: #121212;
+            color: #fff;
+            padding: 10px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            position: sticky;
+            top: 0;
+            z-index: 9999;
+            border-bottom: 1px solid #333;
+        }
+        .preview-controls {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        .preview-pill {
+            background: #2a2a2a;
+            color: #FAF8F5;
+            border: 1px solid #444;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .preview-pill:hover, .preview-pill.active {
+            background: #9E5A3F;
+            border-color: #9E5A3F;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Demo Live Controller Bar -->
+    <div class="preview-bar">
+        <div>
+            <strong>&starf; ANSH THRIFTS &bull; THEME SHOWCASE</strong> &mdash; <span>Pure PHP/CSS3/Vanilla JS (No Node.js)</span>
+        </div>
+        <div class="preview-controls">
+            <span>Live Color Switcher:</span>
+            <button class="preview-pill active" onclick="setThemeBg('#FAF8F5', '#F3EFEA')">Cream & Sand (Default)</button>
+            <button class="preview-pill" onclick="setThemeBg('#F5F3EF', '#EBE7DF')">Vintage Parchment</button>
+            <button class="preview-pill" onclick="setThemeBg('#FFFFFF', '#F7F7F7')">Minimal Clean White</button>
+            <button class="preview-pill" onclick="toggleCartDrawer(true)">&darr; Test Bag Drawer</button>
+            <button class="preview-pill" onclick="toggleFilterDrawer(true)">&darr; Test Filter Drawer</button>
+        </div>
+    </div>
+
+    <!-- Announcement Bar -->
+    <div class="announcement-bar">
+        <div class="thrift-container">
+            <span class="announcement-text">SUSTAINABLE ARCHIVE: WORLDWIDE SHIPPING &bull; FRESH DROPS EVERY SUNDAY 6PM GMT</span>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="site-header">
+        <div class="thrift-container header-inner">
+            <button type="button" class="mobile-menu-toggle" id="mobile-menu-open-btn" aria-label="Open Menu">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+
+            <div class="site-branding">
+                <a href="#" class="site-title-link">
+                    <span class="brand-name">ANSH THRIFTS</span>
+                    <span class="brand-tagline">ARCHIVE &bull; THRIFT</span>
+                </a>
+            </div>
+
+            <nav class="main-navigation desktop-only">
+                <ul class="nav-menu">
+                    <li><a href="#hero">Home</a></li>
+                    <li><a href="#categories">Tops & Bottoms</a></li>
+                    <li><a href="#new-drops">New Arrivals</a></li>
+                    <li><a href="#brands">Curated Brands</a></li>
+                    <li><a href="#manifesto">Manifesto</a></li>
+                    <li><a href="#about">Story & Care</a></li>
+                </ul>
+            </nav>
+
+            <div class="header-actions">
+                <button type="button" class="header-action-btn" id="search-modal-open-btn" aria-label="Search">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </button>
+                <a href="#" class="header-action-btn" aria-label="Account">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                </a>
+                <button type="button" class="header-action-btn cart-trigger" id="mini-cart-toggle-btn" aria-label="Cart">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+                    <span class="cart-badge" id="header-cart-count">2</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="category-subnav desktop-only">
+            <div class="thrift-container category-subnav-inner">
+                <a href="#" class="cat-pill is-active">All Collections</a>
+                <a href="#tops" class="cat-pill">Tops (Leather, Sweats, Graphic Tees)</a>
+                <a href="#bottoms" class="cat-pill">Bottoms (Levi's 501, Cargos, Trousers)</a>
+                <a href="#" class="cat-pill cat-pill--accent">&starf; Weekly Sunday Drop</a>
+                <a href="#" class="cat-pill">Vintage Archives On Sale</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="site-main front-page-main">
+
+        <!-- 1. Editorial Hero -->
+        <section id="hero" class="editorial-hero">
+            <div class="thrift-container hero-inner">
+                <div class="hero-content">
+                    <span class="hero-badge">AUTUMN / WINTER 2026 ARCHIVE</span>
+                    <h1 class="hero-title">Curated Vintage &amp; One-of-a-Kind Fashion</h1>
+                    <p class="hero-description">Handpicked streetwear, rare designer archives, premium denim, and timeless thrift silhouettes. Each garment carries a unique past and authentic story.</p>
+                    <div class="hero-cta-group">
+                        <a href="#tops" class="thrift-btn thrift-btn--dark">Explore Tops &rarr;</a>
+                        <a href="#bottoms" class="thrift-btn thrift-btn--outline">Explore Bottoms</a>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stat-item"><strong>100%</strong><span>Hand-Inspected &amp; Sanitized</span></div>
+                        <div class="stat-item"><strong>1-of-1</strong><span>Unique Archived Pieces</span></div>
+                        <div class="stat-item"><strong>Zero</strong><span>Fast Fashion Waste</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Split Category Showcase -->
+        <section id="categories" class="section-py category-split-showcase">
+            <div class="thrift-container">
+                <div class="category-split-grid">
+                    <div class="split-cat-card split-cat-card--tops">
+                        <div class="split-cat-bg split-cat-bg--tops"></div>
+                        <div class="split-cat-overlay"></div>
+                        <div class="split-cat-content">
+                            <span class="cat-micro-tag">ARCHIVE CURATION 01</span>
+                            <h2 class="split-cat-title">TOPS</h2>
+                            <p class="split-cat-sub">Vintage Leather, Distressed Hoodies, Carhartt Jackets &amp; Band Tees</p>
+                            <span class="split-cat-link">Browse Tops Collection &rarr;</span>
+                        </div>
+                    </div>
+                    <div class="split-cat-card split-cat-card--bottoms">
+                        <div class="split-cat-bg split-cat-bg--bottoms"></div>
+                        <div class="split-cat-overlay"></div>
+                        <div class="split-cat-content">
+                            <span class="cat-micro-tag">ARCHIVE CURATION 02</span>
+                            <h2 class="split-cat-title">BOTTOMS</h2>
+                            <p class="split-cat-sub">Classic 90s Levi’s 501, Parachute Pants, Cargo Pantalons &amp; Tailored Trousers</p>
+                            <span class="split-cat-link">Browse Bottoms Collection &rarr;</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. New Arrivals & Dynamic Product Cards -->
+        <section id="new-drops" class="section-py product-showcase-section bg-sand">
+            <div class="thrift-container">
+                <div class="section-header">
+                    <div>
+                        <span class="section-badge">FRESH VINTAGE ARCHIVE</span>
+                        <h2 class="section-heading">New Arrivals &amp; Recent Drops</h2>
+                    </div>
+                    <a href="#" class="view-all-link">View Complete Archive &rarr;</a>
+                </div>
+
+                <div class="products-editorial-grid">
+                    <!-- Product 1 -->
+                    <div class="product-card">
+                        <div class="product-card__media">
+                            <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?w=700&auto=format&fit=crop&q=80" alt="Vintage Leather Jacket" class="product-card__img product-card__img--primary">
+                            <div class="product-card__badges">
+                                <span class="badge badge--rare">1 OF 1</span>
+                                <span class="badge badge--condition">Pristine Vintage</span>
+                            </div>
+                            <div class="product-card__quick-actions">
+                                <button type="button" class="quick-add-btn" onclick="addToBagDemo('1992 Schott Perfecto Leather Biker', '$185.00')">+ Add to Bag</button>
+                            </div>
+                        </div>
+                        <div class="product-card__content">
+                            <span class="product-card__brand">Schott NYC</span>
+                            <h3 class="product-card__title"><a href="#">1992 Schott Perfecto Heavy Leather Biker</a></h3>
+                            <div class="product-card__price"><span>$185.00</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Product 2 -->
+                    <div class="product-card">
+                        <div class="product-card__media">
+                            <img src="https://images.unsplash.com/photo-1542272604-780c96856592?w=700&auto=format&fit=crop&q=80" alt="Levi's 501 Denim" class="product-card__img product-card__img--primary">
+                            <div class="product-card__badges">
+                                <span class="badge badge--rare">1 OF 1</span>
+                                <span class="badge badge--condition">Like New</span>
+                            </div>
+                            <div class="product-card__quick-actions">
+                                <button type="button" class="quick-add-btn" onclick="addToBagDemo('1994 Levi’s 501 Original Fit Denim', '$85.00')">+ Add to Bag</button>
+                            </div>
+                        </div>
+                        <div class="product-card__content">
+                            <span class="product-card__brand">Levi's</span>
+                            <h3 class="product-card__title"><a href="#">1994 Levi’s 501 Original Fit Stone Wash Denim</a></h3>
+                            <div class="product-card__price"><span>$85.00</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Product 3 -->
+                    <div class="product-card">
+                        <div class="product-card__media">
+                            <img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=700&auto=format&fit=crop&q=80" alt="Carhartt Detroit Jacket" class="product-card__img product-card__img--primary">
+                            <div class="product-card__badges">
+                                <span class="badge badge--rare">1 OF 1</span>
+                                <span class="badge badge--condition">Excellent Pre-Loved</span>
+                            </div>
+                            <div class="product-card__quick-actions">
+                                <button type="button" class="quick-add-btn" onclick="addToBagDemo('Vintage Carhartt J97 Detroit Jacket', '$145.00')">+ Add to Bag</button>
+                            </div>
+                        </div>
+                        <div class="product-card__content">
+                            <span class="product-card__brand">Carhartt</span>
+                            <h3 class="product-card__title"><a href="#">Vintage Carhartt J97 Detroit Duck Canvas Jacket</a></h3>
+                            <div class="product-card__price"><span>$145.00</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Product 4 -->
+                    <div class="product-card">
+                        <div class="product-card__media">
+                            <img src="https://images.unsplash.com/photo-1578587018452-892bacefd3f2?w=700&auto=format&fit=crop&q=80" alt="Vintage Stussy Cargo Pants" class="product-card__img product-card__img--primary">
+                            <div class="product-card__badges">
+                                <span class="badge badge--sold">ARCHIVED / SOLD</span>
+                            </div>
+                        </div>
+                        <div class="product-card__content">
+                            <span class="product-card__brand">Stüssy</span>
+                            <h3 class="product-card__title"><a href="#">90s Tactical Parachute Ripstop Cargo Trousers</a></h3>
+                            <div class="product-card__price"><del>$90.00</del> <ins>$75.00</ins></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Manifesto Callout -->
+        <section id="manifesto" class="promo-editorial-banner">
+            <div class="thrift-container">
+                <div class="promo-card">
+                    <div class="promo-tag">CIRCULAR FASHION MANIFESTO</div>
+                    <h3 class="promo-title">Every piece has a past. Give it a future.</h3>
+                    <p class="promo-text">Fast fashion produces 92 million tonnes of textile waste yearly. Every thrifted item you purchase keeps premium garments in rotation and out of landfills.</p>
+                    <div class="promo-actions">
+                        <a href="#new-drops" class="thrift-btn thrift-btn--dark">Shop Mindful Fashion</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Curated Brands -->
+        <section id="brands" class="section-py brand-grid-section">
+            <div class="thrift-container">
+                <div class="section-header text-center">
+                    <span class="section-badge">AUTHENTIC ARCHIVES</span>
+                    <h2 class="section-heading">Shop by Curated Brand</h2>
+                    <p class="section-sub">Browse original pieces from world-renowned vintage and streetwear brands.</p>
+                </div>
+                <div class="brands-grid">
+                    <div class="brand-card"><span class="brand-card__name">Carhartt</span><span class="brand-card__count">14 pieces</span></div>
+                    <div class="brand-card"><span class="brand-card__name">Levi's</span><span class="brand-card__count">28 pieces</span></div>
+                    <div class="brand-card"><span class="brand-card__name">Nike Vintage</span><span class="brand-card__count">19 pieces</span></div>
+                    <div class="brand-card"><span class="brand-card__name">Stüssy</span><span class="brand-card__count">9 pieces</span></div>
+                    <div class="brand-card"><span class="brand-card__name">Ralph Lauren</span><span class="brand-card__count">22 pieces</span></div>
+                    <div class="brand-card"><span class="brand-card__name">Dickies</span><span class="brand-card__count">11 pieces</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. About Philosophy -->
+        <section id="about" class="section-py about-preview-section bg-sand">
+            <div class="thrift-container">
+                <div class="about-grid">
+                    <div class="about-content">
+                        <span class="section-badge">OUR STORY &amp; PHILOSOPHY</span>
+                        <h2 class="about-title">Curated with obsession. Restored with respect.</h2>
+                        <p class="about-p">At Ansh Thrifts, we believe clothing should be treasured, not discarded. Each item in our collection is handpicked from vintage archives across the globe, inspected for quality, and professionally laundered.</p>
+                        <p class="about-p">Because our pieces are true vintage and one-offs, when an item sells out, it’s gone forever. We take exact measurements so you get the perfect fit every time.</p>
+                    </div>
+                    <div class="about-visual">
+                        <div class="about-quote-box">
+                            <p class="quote-text">“Style isn’t about what’s trending on TikTok this week. It’s about wearing pieces with soul, history, and craftsmanship.”</p>
+                            <span class="quote-author">&mdash; Ansh Thrifts Archive Studio</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-newsletter">
+            <div class="thrift-container">
+                <div class="newsletter-card">
+                    <div class="newsletter-content">
+                        <span class="newsletter-badge">VINTAGE ARCHIVE DROPS</span>
+                        <h3 class="newsletter-heading">Never miss a Sunday drop.</h3>
+                        <p class="newsletter-sub">Most thrift pieces are 1-of-1 and never restocked. Join 8,000+ fashion collectors for private early access 15 minutes before public drop.</p>
+                    </div>
+                    <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Subscribed to drop alerts!');">
+                        <div class="newsletter-input-group">
+                            <input type="email" placeholder="Enter your email address..." required class="newsletter-input">
+                            <button type="submit" class="thrift-btn thrift-btn--dark">Join Early Access</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="thrift-container footer-bottom-inner">
+                <p>&copy; 2026 Ansh Thrifts. All rights reserved. Powered by WooCommerce &bull; Zero Node.js runtime.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Slide-Out Cart Drawer -->
+    <div id="cart-drawer" class="cart-drawer" aria-hidden="true">
+        <div class="drawer-overlay" id="cart-drawer-overlay"></div>
+        <div class="drawer-panel cart-drawer-panel">
+            <div class="drawer-header">
+                <span class="drawer-title">YOUR THRIFT BAG (<span id="cart-drawer-count">2</span>)</span>
+                <button type="button" class="drawer-close-btn" id="cart-drawer-close-btn">&times;</button>
+            </div>
+            <div class="drawer-body cart-drawer-body">
+                <ul class="mini-cart-list" id="mini-cart-items-container">
+                    <li class="mini-cart-item">
+                        <div class="mini-cart-thumb">
+                            <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?w=200&auto=format&fit=crop&q=80" alt="Leather Jacket">
+                        </div>
+                        <div class="mini-cart-details">
+                            <span class="mini-cart-name">1992 Schott Perfecto Heavy Leather Biker</span>
+                            <div class="mini-cart-meta">
+                                <span class="mini-cart-price">$185.00</span>
+                                <span class="thrift-unique-badge">1 of 1</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="mini-cart-item">
+                        <div class="mini-cart-thumb">
+                            <img src="https://images.unsplash.com/photo-1542272604-780c96856592?w=200&auto=format&fit=crop&q=80" alt="Levi's 501">
+                        </div>
+                        <div class="mini-cart-details">
+                            <span class="mini-cart-name">1994 Levi’s 501 Original Fit Stone Wash Denim</span>
+                            <div class="mini-cart-meta">
+                                <span class="mini-cart-price">$85.00</span>
+                                <span class="thrift-unique-badge">1 of 1</span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <div class="mini-cart-footer">
+                    <div class="mini-cart-subtotal">
+                        <span>Subtotal</span>
+                        <strong>$270.00</strong>
+                    </div>
+                    <p class="mini-cart-notice">Shipping &amp; taxes calculated at checkout.</p>
+                    <div class="mini-cart-actions">
+                        <button class="thrift-btn thrift-btn--dark w-full" onclick="alert('Proceeding to Native WooCommerce Checkout')">Proceed to Checkout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide-Out Filter Drawer -->
+    <div id="filter-drawer" class="filter-drawer" aria-hidden="true">
+        <div class="drawer-overlay" id="filter-drawer-overlay"></div>
+        <div class="drawer-panel filter-drawer-panel">
+            <div class="drawer-header">
+                <span class="drawer-title">FILTER ARCHIVE</span>
+                <button type="button" class="drawer-close-btn" id="filter-drawer-close-btn">&times;</button>
+            </div>
+            <div class="drawer-body">
+                <div class="filter-form">
+                    <div class="filter-group">
+                        <label class="filter-group-title">Brand</label>
+                        <select class="filter-select">
+                            <option>All Brands</option>
+                            <option>Carhartt (14)</option>
+                            <option>Levi's (28)</option>
+                            <option>Nike Vintage (19)</option>
+                            <option>Stüssy (9)</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-group-title">Condition Grading</label>
+                        <select class="filter-select">
+                            <option>All Conditions</option>
+                            <option>Pristine Vintage</option>
+                            <option>Like New</option>
+                            <option>Excellent Pre-Loved</option>
+                            <option>Good Vintage</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-group-title">Availability</label>
+                        <label class="filter-checkbox-label">
+                            <input type="checkbox" checked>
+                            <span>Available pieces only (exclude sold)</span>
+                        </label>
+                    </div>
+                    <div class="filter-form-actions">
+                        <button type="button" class="thrift-btn thrift-btn--dark w-full" onclick="toggleFilterDrawer(false)">Apply Filters</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search Modal -->
+    <div id="search-modal" class="search-modal" aria-hidden="true">
+        <div class="search-modal-overlay" id="search-modal-close-overlay"></div>
+        <div class="search-modal-container">
+            <div class="search-modal-top">
+                <span class="search-badge">SEARCH VINTAGE ARCHIVE</span>
+                <button type="button" class="search-close-btn" id="search-modal-close-btn">&times;</button>
+            </div>
+            <form class="search-form-editorial" onsubmit="event.preventDefault(); alert('Searching for: ' + this.querySelector('input').value);">
+                <input type="search" class="search-input-field" placeholder="Search Nike, Carhartt, vintage leather, cargos...">
+                <button type="submit" class="search-submit-btn">&rarr;</button>
+            </form>
+            <div class="search-quick-tags">
+                <span class="quick-label">Popular searches:</span>
+                <a href="#">Leather Jacket</a>
+                <a href="#">Cargo Pants</a>
+                <a href="#">Vintage Hoodie</a>
+                <a href="#">501 Denim</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back to top -->
+    <button type="button" id="back-to-top" class="back-to-top" aria-label="Back to top">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"></polyline></svg>
+    </button>
+
+    <script src="assets/js/main.js"></script>
+    <script>
+        function setThemeBg(cream, sand) {
+            document.documentElement.style.setProperty('--bg-cream', cream);
+            document.documentElement.style.setProperty('--bg-sand', sand);
+        }
+        function addToBagDemo(title, price) {
+            alert('Added to Bag: ' + title + ' (' + price + ')\nOpening sliding cart drawer...');
+            toggleCartDrawer(true);
+        }
+    </script>
+</body>
+</html>
+

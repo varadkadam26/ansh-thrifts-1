@@ -1,0 +1,21 @@
+/*
+Theme Name: Ansh Thrifts
+Theme URI: https://github.com/manish/ansh-thrifts
+Author: Ansh Thrifts Studio
+Author URI: https://github.com/manish
+Description: Premium editorial e-commerce WordPress theme built specifically for curated thrift, vintage, and one-of-a-kind fashion stores. Powered dynamically by WooCommerce.
+Version: 1.0.0
+Requires at least: 6.0
+Tested up to: 6.7
+Requires PHP: 7.4
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: ansh-thrifts
+Tags: e-commerce, fashion, thrift, vintage, woocommerce, grid-layout, two-columns, custom-menu, featured-images, theme-options
+*/
+
+/* 
+ * Styles are modularly bundled in assets/css/main.css.
+ * This file serves as the WordPress theme descriptor and base reset.
+ */
+
